@@ -11,15 +11,15 @@ class Movie(BaseModel):
         super().__init__(imdb_id)
         self.imdb_id = imdb_id
 
-#Fonction pour vérifier si un film existe
+    #Fonction pour vérifier si un film existe
     def exists(self):
         return db.movies.find_one({"IMDB ID": self.imdb_id}) is not None
 
-#Fonction pour créer un nouveau film
+    #Fonction pour créer un nouveau film
     def save(self, movie_data):
         db.movies.update_one({"IMDB ID": self.imdb_id}, {"$set": movie_data}, upsert=True)
 
-#Fonction pour choisir un directeur existant
+    #Fonction pour choisir un directeur existant
     def choose_existing_director(self):
         directors = db.directors.find()
         print("Liste des directeurs existants :")
@@ -31,14 +31,14 @@ class Movie(BaseModel):
             print(f"Le directeur '{self.director}' n'existe toujours pas.")
             self.choose_existing_director()
 
-#Fonction pour créer ou modifier un film
+    #Fonction pour créer ou modifier un film
     def list_movies(self):
         movies = db.movies.find()
         for movie in movies:
             print(f"Title: {movie['Title']}, Year: {movie['Year']}, IMDB ID: {movie['IMDB ID']}, Runtime: {movie['Runtime']}, Rating: {movie['Rating']}, Director: {movie['Director']}")
             print("\n" + "-"*40 + "\n")
 
-#Fonction pour créer ou modifier un film
+    #Fonction pour créer ou modifier un film
     def update_movie(self, imdb_id, **kwargs):
         movie = db.movies.find_one({"IMDB ID": imdb_id})
         if not movie:

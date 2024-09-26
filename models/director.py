@@ -4,7 +4,7 @@ from database import Database
 #Connexion à la base de données
 db = Database().connection
 
-#
+#Creation de la classe Director
 class Director(BaseModel):
     def __init__(self, name):
         super().__init__(name)

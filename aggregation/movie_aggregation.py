@@ -6,7 +6,7 @@ db = Database().connection
 # Fonction pour obtenir les 5 films les mieux notés
 def top_rated_movies():
     pipeline = [
-        {"$match": {"Rating": {"$exists": True}}},  # Ensure Rating field exists
+        {"$match": {"Rating": {"$exists": True}}},
         {"$sort": {"Rating": -1}},
         {"$limit": 5},
         {"$project": {
