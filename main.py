@@ -1,4 +1,3 @@
-from pymongo import MongoClient
 from aggregation.movie_aggregation import top_rated_movies
 from aggregation.director_aggregation import top_rated_directors, top_runtime_directors, most_movies_directors
 from aggregation.cast_aggregation import top_actors_by_movie_count
