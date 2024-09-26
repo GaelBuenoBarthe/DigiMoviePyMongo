@@ -1,6 +1,6 @@
 from aggregation.movie_aggregation import top_rated_movies
 from aggregation.director_aggregation import top_rated_directors, top_runtime_directors, most_movies_directors
-from aggregation.cast_aggregation import top_actors_by_movie_count
+from aggregation.cast_aggregation import top_actors_by_movie_count, top_actors_by_movie_count_light
 from models.director import Director
 from database import Database
 
@@ -223,17 +223,34 @@ def display_top_actors(results):
                 print(f" - {movie}")
             print("\n")
 
+# Fonction pour afficher les acteurs les plus présents dans des films (version légère)
+def display_top_actors_light(results):
+    if not results:
+        print("Aucun acteur trouvé.")
+    else:
+        print("Top 15 des acteurs les plus présents dans des films :")
+        for index, result in enumerate(results, start=1):
+            print(f"{index}. {result['actor']}")
+            print("Films:")
+            for movie in result['movies']:
+                print(f" - {movie}")
+            print("\n")
+
 # Fonction du menu d'agrégation des acteurs
 def actor_aggregation_menu():
     while True:
         print("Menu Agrégations des Acteurs:")
         print("1. Top 15 des acteurs les plus présents dans les films")
+        print("2. Top 15 des acteurs les plus présents dans les films (version légère)")
         print("Tapez 'exit' pour revenir au menu principal.")
         choice = input("Choisissez une option: ").strip().lower()
 
         if choice == '1':
             results = top_actors_by_movie_count()
             display_top_actors(results)
+        elif choice == '2':
+            results = top_actors_by_movie_count_light()
+            display_top_actors_light(results)
         elif choice == 'exit':
             break
         else:

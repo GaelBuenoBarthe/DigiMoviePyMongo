@@ -59,3 +59,30 @@ def top_actors_by_movie_count():
         }}
     ]
     return list(db.cast.aggregate(pipeline))
+
+# Fonction pour obtenir les 15 acteurs ayant tourné dans le plus de films (sans la date et le réalisateur)
+def top_actors_by_movie_count_light():
+    pipeline = [
+        {"$unwind": "$movies"},
+        {"$lookup": {
+            "from": "movies",
+            "localField": "movies",
+            "foreignField": "IMDB ID",
+            "as": "movie_details"
+        }},
+        {"$unwind": "$movie_details"},
+        {"$group": {
+            "_id": "$actor",
+            "movieCount": {"$sum": 1},
+            "movies": {"$push": "$movie_details.Title"}
+        }},
+        {"$sort": {"movieCount": -1}},
+        {"$limit": 15},
+        {"$project": {
+            "actor": "$_id",
+            "movieCount": 1,
+            "movies": 1,
+            "_id": 0
+        }}
+    ]
+    return list(db.cast.aggregate(pipeline))
